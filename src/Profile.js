@@ -3,17 +3,17 @@ import { useState, useEffect } from 'react';
 function Profile() {
   const [nickname, setNickname] = useState('');
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(null); // 사용자 정보 상태 추가
+  const [user, setUser] = useState(null);
+  const [message, setMessage] = useState(''); // 프로필 메시지 상태 추가
+  const [isSaving, setIsSaving] = useState(false); // 저장 중 상태
 
   // 컴포넌트 마운트 시 로그인한 사용자 정보 가져오기
   useEffect(() => {
     const fetchMyInfo = async () => {
       setLoading(true);
       try {
-        // 로그인한 사용자의 id (실제로는 로그인 정보에서 가져와야 함)
-        const loggedInUserId = '1'; // 여기를 실제 로그인한 사용자 id로 변경
+        const loggedInUserId = '1';
         
-        // id로 직접 사용자 정보 가져오기
         const response = await fetch(`https://68db330123ebc87faa323a7c.mockapi.io/userinfo/${loggedInUserId}`);
         
         if (!response.ok) {
@@ -24,6 +24,7 @@ function Profile() {
         
         const myUser = await response.json();
         setUser(myUser);
+        setMessage(myUser.message || ''); // 기존 메시지 불러오기
         
       } catch (err) {
         console.error('정보 불러오기 오류:', err);
@@ -35,6 +36,47 @@ function Profile() {
 
     fetchMyInfo();
   }, []);
+
+  // 프로필 메시지 저장 함수
+  const handleSaveMessage = async (e) => {
+    e.preventDefault();
+    
+    if (!user) {
+      alert('사용자 정보를 불러오지 못했습니다');
+      return;
+    }
+
+    setIsSaving(true);
+
+    try {
+      const response = await fetch(`https://68db330123ebc87faa323a7c.mockapi.io/userinfo/${user.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...user,
+          message: message
+        })
+      });
+
+      if (!response.ok) {
+        alert('메시지 저장에 실패했습니다');
+        setIsSaving(false);
+        return;
+      }
+
+      const updatedUser = await response.json();
+      setUser(updatedUser);
+      alert('프로필 메시지가 저장되었습니다');
+
+    } catch (err) {
+      console.error('메시지 저장 오류:', err);
+      alert('메시지 저장 중 오류가 발생했습니다');
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -80,6 +122,9 @@ function Profile() {
               <span class="label">닉네임:</span> ${searchedUser.nickname}
             </div>
             <div class="info">
+              <span class="label">프로필 메시지:</span> ${searchedUser.message || '메시지가 없습니다'}
+            </div>
+            <div class="info">
               <span class="label">총 공부 시간:</span> ${searchedUser.study || 0}시간
             </div>
           </div>
@@ -123,6 +168,26 @@ function Profile() {
         ) : user ? (
           <>
             <div className="user_nickname">{user.nickname}</div>
+            
+            <form onSubmit={handleSaveMessage}>
+              <div className='profile_messege'>
+                <input 
+                  type='text' 
+                  className="input_profile_messege"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="프로필 메시지를 입력하세요"
+                />
+                <button 
+                  type='submit' 
+                  className='profile_messege_button'
+                  disabled={isSaving}
+                >
+                  {isSaving ? '저장 중...' : '저장'}
+                </button>
+              </div>
+            </form>
+            
             <div className="user_studytime">총 공부 시간: {user.study || 0}시간</div>
             <div className="user_img"></div>
           </>
