@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from "react-router-dom"; // ← useNavigate 추가
 
 function Profile() {
   const navigate = useNavigate();
@@ -14,7 +15,8 @@ function Profile() {
     const fetchMyInfo = async () => {
       setLoading(true);
       try {
-        const loggedInUserId = '1';
+        const params = new URLSearchParams(window.location.search);
+        const loggedInUserId = params.get('userid');
 
         const response = await fetch(`https://68db330123ebc87faa323a7c.mockapi.io/userinfo/${loggedInUserId}`);
 
@@ -91,7 +93,10 @@ function Profile() {
     setLoading(true);
 
     try {
-      const response = await fetch('https://68db330123ebc87faa323a7c.mockapi.io/userinfo');
+      // 쿼리 파라미터로 특정 닉네임만 조회
+      const response = await fetch(
+        `https://68db330123ebc87faa323a7c.mockapi.io/userinfo?nickname=${nickname.trim()}`
+      );
 
       if (!response.ok) {
         setLoading(false);
@@ -100,13 +105,15 @@ function Profile() {
       }
 
       const users = await response.json();
-      const searchedUser = users.find(u => u.nickname === nickname.trim());
 
-      if (!searchedUser) {
+      // 결과가 있는지 확인
+      if (users.length === 0) {
         setLoading(false);
         alert('사용자를 찾을 수 없습니다');
         return;
       }
+
+      const searchedUser = users[0]; // 첫 번째 결과 사용
 
       const newWindow = window.open('', '_blank');
 

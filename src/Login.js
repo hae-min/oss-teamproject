@@ -1,92 +1,72 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function Login(){
-    const [id, setId] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+function Login() {
+  const [id, setId] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError('');
-        setLoading(true);
+  const API_BASE = 'https://68db330123ebc87faa323a7c.mockapi.io';
 
-        try {
-            const response = await fetch('https://68db330123ebc87faa323a7c.mockapi.io/userinfo');
-            
-            if (!response.ok) {
-                throw new Error('서버 응답 오류');
-            }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
-            const users = await response.json();
-            const user = users.find(u => u.userid === id && u.password === password);
+    try {
+      // 아이디로만 사용자 조회
+      const response = await fetch(`${API_BASE}/userinfo?userid=${encodeURIComponent(id)}`);
 
-            if (user) {
-                console.log('로그인 성공!', user);
-                window.location.href = '/home';
-            } else {
-                setError('아이디 또는 비밀번호가 올바르지 않습니다.');
-            }
-        } catch (err) {
-            console.error('로그인 에러:', err);
-            setError('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
-        } finally {
-            setLoading(false);
-        }
-    };
+      if (!response.ok) {
+        throw new Error('서버 응답 오류');
+      }
 
-    const handleSignupClick = () => {
-        window.location.href = '/join';
-    };
+      const users = await response.json();
 
-    return(
-        <div>
-            <h1 className='gamja-flower-regular'>🐶댕모도로</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="login_info">
-                    <input 
-                        type="text" 
-                        name="id" 
-                        className="id" 
-                        placeholder="아이디 입력"
-                        value={id}
-                        onChange={(e) => setId(e.target.value)}
-                        required
-                    />
-                </div>
+      if (users.length > 0) {
+        // 로그인 성공 → 자기 정보 페이지로 이동
+        console.log('로그인 성공', users[0]);
+        navigate(`/profile?userid=${encodeURIComponent(id)}`);
+      } else {
+        setError('존재하지 않는 아이디입니다.');
+      }
+    } catch (err) {
+      console.error('로그인 에러:', err);
+      setError('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                <div className="login_info">
-                    <input 
-                        type="password" 
-                        name="password" 
-                        className="password" 
-                        placeholder="비밀번호 입력"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-
-                {error && <div className="error_message" style={{color: 'red'}}>{error}</div>}
-
-                <button 
-                    type="submit" 
-                    className="btn btn-warning gamja-flower-regular"
-                    disabled={loading}
-                >{/*login_button*/}
-                    {loading ? '로그인 중...' : 'log in'}
-                </button>
-            </form>
-
-            <button 
-                type="button" 
-                className="btn btn-warning gamja-flower-regular"
-                onClick={handleSignupClick}
-            >{/*login_join_button*/}
-                회원가입
-            </button>
+  return (
+    <div>
+      <h1 className="gamja-flower-regular">🐶댕모도로</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="login_info">
+          <input
+            type="text"
+            name="id"
+            className="id"
+            placeholder="아이디 입력"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+            required
+          />
         </div>
-    );
+
+        {error && <div className="error_message" style={{ color: 'red' }}>{error}</div>}
+
+        <button
+          type="submit"
+          className="btn btn-warning gamja-flower-regular"
+          disabled={loading}
+        >
+          {loading ? '로그인 중...' : '로그인'}
+        </button>
+      </form>
+    </div>
+  );
 }
 
 export default Login;
