@@ -10,25 +10,35 @@ function Timer({ studyTime, restTime, sets, breed }) {
 
   const toggleTimer = () => setIsRunning((prev) => !prev);
 
-  // ✅ 보상 저장 함수 (Timer 내부로 이동)
+  // ✅ 보상 저장 함수
   const giveDogReward = async () => {
     if (!breed) return;
     try {
+      // 1️⃣ 강아지 이미지 가져오기
       const res = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`);
       const data = await res.json();
       const dogImageUrl = data.message;
 
+      // 2️⃣ 현재 로그인한 사용자 id 가져오기
       const userId = localStorage.getItem("userId");
 
-      const userRes = await axios.get(`https://68db330123ebc87faa323a7c.mockapi.io/${userId}`);
+      // 3️⃣ 사용자 데이터 불러오기
+      const userRes = await axios.get(
+        `https://68db330123ebc87faa323a7c.mockapi.io/userinfo/${userId}`
+      );
       const userData = userRes.data;
 
+      // 4️⃣ 보상 배열 업데이트
       const updatedRewards = [...(userData.rewards || []), dogImageUrl];
 
-      await axios.put(`https://68db330123ebc87faa323a7c.mockapi.io/${userId}`, {
-        ...userData,
-        rewards: updatedRewards,
-      });
+      // 5️⃣ MockAPI에 업데이트 요청
+      await axios.put(
+        `https://68db330123ebc87faa323a7c.mockapi.io/userinfo/${userId}`,
+        {
+          ...userData,
+          rewards: updatedRewards,
+        }
+      );
 
       alert("🎉 보상 강아지 사진이 프로필에 저장되었습니다!");
     } catch (err) {
@@ -36,6 +46,7 @@ function Timer({ studyTime, restTime, sets, breed }) {
     }
   };
 
+  // ✅ 보상 이미지를 화면에 표시
   const fetchRewardImage = async () => {
     if (!breed) return;
     try {
@@ -47,6 +58,7 @@ function Timer({ studyTime, restTime, sets, breed }) {
     }
   };
 
+  // ✅ 타이머 초기화
   useEffect(() => {
     setTimeLeft(studyTime * 60);
     setIsStudy(true);
@@ -55,6 +67,7 @@ function Timer({ studyTime, restTime, sets, breed }) {
     setIsRunning(false);
   }, [studyTime, restTime, sets, breed]);
 
+  // ✅ 타이머 동작
   useEffect(() => {
     if (!isRunning) return;
 
@@ -75,7 +88,7 @@ function Timer({ studyTime, restTime, sets, breed }) {
             clearInterval(timer);
             setIsRunning(false);
             fetchRewardImage(); // 화면에 표시
-            giveDogReward();    // MockAPI에 저장
+            giveDogReward(); // MockAPI에 저장
             return 0;
           }
         }

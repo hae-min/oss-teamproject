@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 function Home() {
   const navigate = useNavigate(); 
+  const [id, setId] = useState('');
   const [selectedBreed, setSelectedBreed] = useState("");
   const [studyTime, setStudyTime] = useState(25); // 분
   const [restTime, setRestTime] = useState(5); // 분
@@ -26,13 +27,14 @@ function Home() {
   <h1 className="gamja-flower-regular">
     🐶 댕모도로
   </h1>
-    <button
-      onClick={() => navigate('/profile?useid=${user}')}
-      className="gamja-flower-regular"
-    >
-      내 프로필
-    </button>
+<button
+  onClick={() => navigate(`/profile?userid=${user}`)}
+  className="gamja-flower-regular"
+>
+  내 프로필
+</button>
 </div>
+
 
 
 
@@ -85,6 +87,9 @@ function Home() {
         프로필에 추가할 수 있어요!
       </pre>
 
+      <label for="date">날짜를 입력하세요</label>
+      <input type="date" id="date" />
+      
       <Timer
         studyTime={studyTime}
         restTime={restTime}

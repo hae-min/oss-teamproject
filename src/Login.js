@@ -25,6 +25,9 @@ function Login() {
         const user = users[0];
         if (user.password === password) {
           console.log('로그인 성공', user);
+          // 로그인 성공 시
+            localStorage.setItem("userId", user.id);
+
           navigate(`/home?userid=${encodeURIComponent(id)}`);
           localStorage.setItem("userId", user.id);
         } else {
