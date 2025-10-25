@@ -6,8 +6,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Profile />} />
-        <Route path="/profile" element={<Home />} />//루트 확인할때 profile을 home으로 하기, push나 pull할때는 다시 변경!!!!
+        <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
 
       </Routes>
     </Router>
