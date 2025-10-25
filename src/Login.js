@@ -12,35 +12,22 @@ function Login(){
         setLoading(true);
 
         try {
-            const response = await fetch('https://68db330123ebc87faa323a7c.mockapi.io/userinfo', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id: id,
-                    password: password
-                })
-            });
+            const response = await fetch('https://68db330123ebc87faa323a7c.mockapi.io/userinfo');
+            
+            if (!response.ok) {
+                throw new Error('서버 응답 오류');
+            }
 
-            const data = await response.json();
+            const users = await response.json();
+            const user = users.find(u => u.userid === id && u.password === password);
 
-            if (response.ok) {
-                // 로그인 성공
-                console.log('로그인 성공!', data);
-                
-                // 토큰이 있다면 저장 (예시)
-                if (data.token) {
-                    sessionStorage.setItem('authToken', data.token);
-                }
-                
-                // 로그인 후 페이지 이동 (React Router 사용 시)
-                // navigate('/dashboard');
-                
+            if (user) {
+                console.log('로그인 성공!', user);
+                sessionStorage.setItem('userId', user.userid);
+                sessionStorage.setItem('userName', user.nickname || user.userid);
                 alert('로그인 성공!');
             } else {
-                // 로그인 실패
-                setError(data.message || '아이디 또는 비밀번호가 올바르지 않습니다.');
+                setError('아이디 또는 비밀번호가 올바르지 않습니다.');
             }
         } catch (err) {
             console.error('로그인 에러:', err);
@@ -48,6 +35,10 @@ function Login(){
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleSignupClick = () => {
+        window.location.href = '/join';
     };
 
     return(
@@ -89,32 +80,15 @@ function Login(){
                 </button>
             </form>
 
-            <button type="button" className="login_join_button">회원가입</button>
+            <button 
+                type="button" 
+                className="login_join_button"
+                onClick={handleSignupClick}
+            >
+                회원가입
+            </button>
         </div>
     );
 }
 
 export default Login;
-
-/*function Login(){
-    return(
-        <div>
-            <h1>댕모도로</h1>
-            <form>
-                <div className="login_info">
-                    <input type="text" name="id" className="id" placeholder="아이디 입력"></input>
-                </div>
-
-                <div className="login_info">
-                    <input type="text" name="password" className="password" placeholder="비밀번호 입력"></input>
-                </div>
-
-                <button type="submit" className="login_button">log in</button>
-            </form>
-
-            <button type="submit" className="login_join_button">회원가입</button>
-        </div>
-    );
-}
-
-export default Login;*/
