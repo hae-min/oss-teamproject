@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -15,19 +16,19 @@ function Login() {
     setLoading(true);
 
     try {
-      // 아이디로만 사용자 조회
       const response = await fetch(`${API_BASE}/userinfo?userid=${encodeURIComponent(id)}`);
-
-      if (!response.ok) {
-        throw new Error('서버 응답 오류');
-      }
+      if (!response.ok) throw new Error('서버 응답 오류');
 
       const users = await response.json();
 
       if (users.length > 0) {
-        // 로그인 성공 → 자기 정보 페이지로 이동
-        console.log('로그인 성공', users[0]);
-        navigate(`/profile?userid=${encodeURIComponent(id)}`);
+        const user = users[0];
+        if (user.password === password) {
+          console.log('로그인 성공', user);
+          navigate(`/home?userid=${encodeURIComponent(id)}`);
+        } else {
+          setError('비밀번호가 올바르지 않습니다.');
+        }
       } else {
         setError('존재하지 않는 아이디입니다.');
       }
@@ -55,6 +56,18 @@ function Login() {
           />
         </div>
 
+        <div className="login_info">
+          <input
+            type="password"
+            name="password"
+            className="password"
+            placeholder="비밀번호 입력"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
         {error && <div className="error_message" style={{ color: 'red' }}>{error}</div>}
 
         <button
@@ -65,6 +78,16 @@ function Login() {
           {loading ? '로그인 중...' : '로그인'}
         </button>
       </form>
+
+      {/* 회원가입 버튼 추가 */}
+      <div style={{ marginTop: '15px' }}>
+        <button
+          className="btn btn-warning gamja-flower-regular"
+          onClick={() => navigate('/join')}
+        >
+          회원가입
+        </button>
+      </div>
     </div>
   );
 }
