@@ -13,19 +13,19 @@ function Profile() {
       setLoading(true);
       try {
         const loggedInUserId = '1';
-        
+
         const response = await fetch(`https://68db330123ebc87faa323a7c.mockapi.io/userinfo/${loggedInUserId}`);
-        
+
         if (!response.ok) {
           alert('데이터를 불러올 수 없습니다');
           setLoading(false);
           return;
         }
-        
+
         const myUser = await response.json();
         setUser(myUser);
         setMessage(myUser.message || ''); // 기존 메시지 불러오기
-        
+
       } catch (err) {
         console.error('정보 불러오기 오류:', err);
         alert('정보를 불러오는 중 오류가 발생했습니다');
@@ -40,7 +40,7 @@ function Profile() {
   // 프로필 메시지 저장 함수
   const handleSaveMessage = async (e) => {
     e.preventDefault();
-    
+
     if (!user) {
       alert('사용자 정보를 불러오지 못했습니다');
       return;
@@ -80,7 +80,7 @@ function Profile() {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    
+
     if (!nickname.trim()) {
       alert('닉네임을 입력해주세요');
       return;
@@ -90,24 +90,24 @@ function Profile() {
 
     try {
       const response = await fetch('https://68db330123ebc87faa323a7c.mockapi.io/userinfo');
-      
+
       if (!response.ok) {
         setLoading(false);
         alert('데이터를 불러올 수 없습니다');
         return;
       }
-      
+
       const users = await response.json();
       const searchedUser = users.find(u => u.nickname === nickname.trim());
-      
+
       if (!searchedUser) {
         setLoading(false);
         alert('사용자를 찾을 수 없습니다');
         return;
       }
-      
+
       const newWindow = window.open('', '_blank');
-      
+
       newWindow.document.write(`
         <!DOCTYPE html>
         <html>
@@ -131,9 +131,9 @@ function Profile() {
         </body>
         </html>
       `);
-      
+
       newWindow.document.close();
-      
+
     } catch (err) {
       console.error('검색 오류:', err);
       alert('검색 중 오류가 발생했습니다');
@@ -149,14 +149,14 @@ function Profile() {
 
       <form onSubmit={handleSearch}>
         <div className="search">
-          <input 
-            type="text" 
-            name="nickname" 
+          <input
+            type="text"
+            name="nickname"
             placeholder="사용자 nickname입력"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
           />
-          <button type="submit" className="search_button" disabled={loading}>
+          <button type="submit" className="btn btn-warning" disabled={loading}>{/*search_button*/}
             {loading ? '검색 중...' : '검색'}
           </button>
         </div>
@@ -168,26 +168,26 @@ function Profile() {
         ) : user ? (
           <>
             <div className="user_nickname">{user.nickname}</div>
-            
+
             <form onSubmit={handleSaveMessage}>
               <div className='profile_messege'>
-                <input 
-                  type='text' 
+                <input
+                  type='text'
                   className="input_profile_messege"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="프로필 메시지를 입력하세요"
                 />
-                <button 
-                  type='submit' 
-                  className='profile_messege_button'
+                <button
+                  type='submit'
+                  className='btn btn-warning'
                   disabled={isSaving}
-                >
+                >{/*profile_messege_button*/}
                   {isSaving ? '저장 중...' : '저장'}
                 </button>
               </div>
             </form>
-            
+
             <div className="user_studytime">총 공부 시간: {user.study || 0}시간</div>
             <div className="user_img"></div>
           </>

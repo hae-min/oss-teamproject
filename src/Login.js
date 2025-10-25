@@ -71,18 +71,18 @@ function Login(){
 
                 <button 
                     type="submit" 
-                    className="login_button"
+                    className="btn btn-warning"
                     disabled={loading}
-                >
+                >{/*login_button*/}
                     {loading ? '로그인 중...' : 'log in'}
                 </button>
             </form>
 
             <button 
                 type="button" 
-                className="login_join_button"
+                className="btn btn-warning"
                 onClick={handleSignupClick}
-            >
+            >{/*login_join_button*/}
                 회원가입
             </button>
         </div>

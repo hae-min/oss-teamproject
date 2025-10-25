@@ -105,11 +105,11 @@ function Join() {
 
                 <button
                     type="submit"
-                    className="join_button"
+                    className="btn btn-warning"
                     disabled={isLoading}
                 >
                     {isLoading ? '처리중...' : '회원가입하기'}
-                </button>
+                </button>{/*join_button*/}
             </form>
 
             {message && <p style={{ marginTop: '10px', color: message.includes('완료') ? 'green' : 'red' }}>{message}</p>}
