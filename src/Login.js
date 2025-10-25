@@ -23,9 +23,7 @@ function Login(){
 
             if (user) {
                 console.log('로그인 성공!', user);
-                sessionStorage.setItem('userId', user.userid);
-                sessionStorage.setItem('userName', user.nickname || user.userid);
-                alert('로그인 성공!');
+                window.location.href = '/home';
             } else {
                 setError('아이디 또는 비밀번호가 올바르지 않습니다.');
             }
