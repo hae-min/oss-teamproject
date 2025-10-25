@@ -1,4 +1,4 @@
-function MyProfile() {
+function Profile() {
   return (
     <div className="profile_container">
       <h1 className="title">댕모도로</h1>
@@ -18,4 +18,4 @@ function MyProfile() {
   );
 }
 
-export default MyProfile;
+export default Profile;
