@@ -42,13 +42,12 @@ function Join() {
             });
 
             if (response.ok) {
-                const result = await response.json();
+                await response.json();
                 setMessage('회원가입이 완료되었습니다!');
-                reset(); // 폼 초기화
-                setTimeout(() => {
-                    navigate('/login'); // ✅ React Router 방식으로 이동
-                }, 1000);
-            } else {
+                reset();
+                navigate('/'); // 바로 이동
+            }
+            else {
                 setMessage('회원가입에 실패했습니다. 다시 시도해주세요.');
             }
         } catch (error) {
@@ -109,6 +108,7 @@ function Join() {
                     <input
                         type="text"
                         className="join_nickname"
+                        placeholder='2자 이상 입력'
                         {...register("nickname", {
                             required: "닉네임을 입력해주세요",
                             minLength: {

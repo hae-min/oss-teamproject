@@ -26,6 +26,7 @@ function Login() {
         if (user.password === password) {
           console.log('로그인 성공', user);
           navigate(`/home?userid=${encodeURIComponent(id)}`);
+          localStorage.setItem("userId", user.id);
         } else {
           setError('비밀번호가 올바르지 않습니다.');
         }

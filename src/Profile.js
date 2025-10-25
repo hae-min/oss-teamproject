@@ -145,7 +145,7 @@ function Profile() {
   return (
     <div className="profile_container">
       <h1 className="gamja-flower-regular">🐶댕모도로</h1>
-      <div className='btn btn-warning gamja-flower-regular' onClick={() => navigate('/')}>home</div>
+      <div className='btn btn-warning gamja-flower-regular' onClick={() => navigate('/home')}>home</div>
       <div className='gamja-flower-regular'>내 정보</div>
 
       <form onSubmit={handleSearch}>
