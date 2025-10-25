@@ -13,8 +13,8 @@ function Login(){
 
                 <button type="submit" className="login_button">log in</button>
             </form>
-            
-            <button type="submit" className="join_button">회원가입</button>
+
+            <button type="submit" className="login_join_button">회원가입</button>
         </div>
     );
 }

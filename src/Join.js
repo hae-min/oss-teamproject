@@ -17,6 +17,8 @@ function Join(){
                     닉네임 입력
                     <input type="password" name="join_password" className="join_password"></input>
                 </div>
+
+                <button type="submit" className="join_button">회원가입하기</button>
             </form>
         </div>
     );

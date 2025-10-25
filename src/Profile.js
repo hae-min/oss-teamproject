@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
 function Profile() {
   return (
     <div className="profile_container">
@@ -10,7 +13,7 @@ function Profile() {
           <button type="submit">검색</button>
         </div>
       </form>
-      
+
       <div className="user_info">
         <div className="user_nickname">000</div>
         <div className="user_studytime">총 공부 시간: 20시간</div>
