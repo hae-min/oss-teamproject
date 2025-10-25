@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 function Profile() {
   const navigate = useNavigate();
@@ -186,6 +187,25 @@ function Profile() {
 
             <div className="gamja-flower-regular">총 공부 시간: {user.study || 0}시간</div>
             <div className="user_img"></div>
+
+            {/* 보상 컬렉션 섹션 추가 */}
+            <div className="rewards_section" style={{ marginTop: '30px' }}>
+              <h2 className="gamja-flower-regular">보상 컬렉션 🐶</h2>
+              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
+                {user.rewards && user.rewards.length > 0 ? (
+                  user.rewards.map((url, i) => (
+                    <img
+                      key={i}
+                      src={url}
+                      alt={`reward-${i}`}
+                      style={{ width: "150px", margin: "10px", borderRadius: "10px" }}
+                    />
+                  ))
+                ) : (
+                  <p className="gamja-flower-regular">아직 받은 강아지 사진이 없어요 🐾</p>
+                )}
+              </div>
+            </div>
           </>
         ) : (
           <div>사용자 정보를 불러올 수 없습니다</div>
