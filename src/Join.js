@@ -45,7 +45,7 @@ function Join() {
                 await response.json();
                 setMessage('회원가입이 완료되었습니다!');
                 reset();
-                navigate('/'); // 바로 이동
+                navigate('/');
             }
             else {
                 setMessage('회원가입에 실패했습니다. 다시 시도해주세요.');
@@ -56,11 +56,31 @@ function Join() {
     };
 
     return (
-        <div>
-            <h1 className='gamja-flower-regular'>🐶회원가입</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="gamja-flower-regular">
-                    아이디 입력
+        <div className="join_container" style={{
+            maxWidth: '800px',
+            minHeight: 'calc(100vh - 40px)',
+            margin: '0 auto',
+            background: 'white',
+            padding: '30px',
+            borderRadius: '15px',
+            boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
+        }}>
+            <h1 className='gamja-flower-regular' style={{ 
+                textAlign: 'center', 
+                marginBottom: '40px',
+                fontSize: '2.5rem'
+            }}>
+                🐶회원가입
+            </h1>
+
+            <form onSubmit={handleSubmit(onSubmit)} style={{ maxWidth: '400px', margin: '0 auto', width: '100%' }}>
+                <div className="gamja-flower-regular" style={{ marginBottom: '20px' }}>
+                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '1rem' }}>
+                        아이디 입력
+                    </label>
                     <input
                         type="text"
                         className="join_id"
@@ -73,16 +93,28 @@ function Join() {
                             }
                         })}
                         disabled={isSubmitting}
+                        style={{
+                            width: '100%',
+                            height: '50px',
+                            padding: '6px 12px',
+                            borderRadius: '10px',
+                            borderColor: 'gray',
+                            borderStyle: 'solid',
+                            borderWidth: '1px',
+                            fontSize: '1rem'
+                        }}
                     />
                     {errors.userid && (
-                        <p style={{ color: 'red', fontSize: '14px', margin: '5px 0' }}>
+                        <p className="gamja-flower-regular" style={{ color: 'red', fontSize: '14px', margin: '5px 0' }}>
                             {errors.userid.message}
                         </p>
                     )}
                 </div>
 
-                <div className="input_password gamja-flower-regular">
-                    비밀번호 입력
+                <div className="input_password gamja-flower-regular" style={{ marginBottom: '20px' }}>
+                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '1rem' }}>
+                        비밀번호 입력
+                    </label>
                     <input
                         type="password"
                         className="join_password"
@@ -95,16 +127,28 @@ function Join() {
                             }
                         })}
                         disabled={isSubmitting}
+                        style={{
+                            width: '100%',
+                            height: '50px',
+                            padding: '6px 12px',
+                            borderRadius: '10px',
+                            borderColor: 'gray',
+                            borderStyle: 'solid',
+                            borderWidth: '1px',
+                            fontSize: '1rem'
+                        }}
                     />
                     {errors.password && (
-                        <p style={{ color: 'red', fontSize: '14px', margin: '5px 0' }}>
+                        <p className="gamja-flower-regular" style={{ color: 'red', fontSize: '14px', margin: '5px 0' }}>
                             {errors.password.message}
                         </p>
                     )}
                 </div>
 
-                <div className="input_nickname gamja-flower-regular">
-                    닉네임 입력
+                <div className="input_nickname gamja-flower-regular" style={{ marginBottom: '20px' }}>
+                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '1rem' }}>
+                        닉네임 입력
+                    </label>
                     <input
                         type="text"
                         className="join_nickname"
@@ -117,9 +161,19 @@ function Join() {
                             }
                         })}
                         disabled={isSubmitting}
+                        style={{
+                            width: '100%',
+                            height: '50px',
+                            padding: '6px 12px',
+                            borderRadius: '10px',
+                            borderColor: 'gray',
+                            borderStyle: 'solid',
+                            borderWidth: '1px',
+                            fontSize: '1rem'
+                        }}
                     />
                     {errors.nickname && (
-                        <p style={{ color: 'red', fontSize: '14px', margin: '5px 0' }}>
+                        <p className="gamja-flower-regular" style={{ color: 'red', fontSize: '14px', margin: '5px 0' }}>
                             {errors.nickname.message}
                         </p>
                     )}
@@ -129,19 +183,28 @@ function Join() {
                     type="submit"
                     className="btn btn-warning gamja-flower-regular"
                     disabled={isSubmitting}
+                    style={{
+                        width: '100%',
+                        height: '50px',
+                        fontSize: '1.1rem',
+                        marginTop: '10px'
+                    }}
                 >
                     {isSubmitting ? '처리중...' : '회원가입하기'}
                 </button>
             </form>
 
             {message && (
-                <p style={{
-                    marginTop: '10px',
+                <p className="gamja-flower-regular" style={{
+                    marginTop: '20px',
+                    textAlign: 'center',
+                    fontSize: '1rem',
                     color: message.includes('완료') ? 'green' : 'red'
                 }}>
                     {message}
                 </p>
             )}
+
         </div>
     );
 }

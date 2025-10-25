@@ -25,11 +25,8 @@ function Login() {
                 const user = users[0];
                 if (user.password === password) {
                     console.log('로그인 성공', user);
-                    // 로그인 성공 시
                     localStorage.setItem("userId", user.id);
-
                     navigate(`/home?userid=${encodeURIComponent(id)}`);
-                    localStorage.setItem("userId", user.id);
                 } else {
                     setError('비밀번호가 올바르지 않습니다.');
                 }
@@ -45,49 +42,105 @@ function Login() {
     };
 
     return (
-        <div>
-            <h1 className="gamja-flower-regular">🐶댕모도로</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="login_info">
+        <div className="login_container" style={{
+            maxWidth: '800px',
+            minHeight: 'calc(100vh - 40px)',
+            margin: '0 auto',
+            background: 'white',
+            padding: '30px',
+            borderRadius: '15px',
+            boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
+        }}>
+            <h1 className="gamja-flower-regular" style={{ 
+                textAlign: 'center', 
+                marginBottom: '40px',
+                fontSize: '2.5rem'
+            }}>
+                🐶댕모도로
+            </h1>
+
+            <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: '0 auto', width: '100%' }}>
+                <div className="login_info" style={{ marginBottom: '20px' }}>
                     <input
                         type="text"
                         name="id"
-                        className="id"
+                        className="id gamja-flower-regular"
                         placeholder="아이디 입력"
                         value={id}
                         onChange={(e) => setId(e.target.value)}
                         required
+                        style={{
+                            width: '100%',
+                            height: '50px',
+                            padding: '6px 12px',
+                            borderRadius: '10px',
+                            borderColor: 'gray',
+                            borderStyle: 'solid',
+                            borderWidth: '1px',
+                            fontSize: '1rem'
+                        }}
                     />
                 </div>
 
-                <div className="login_info">
+                <div className="login_info" style={{ marginBottom: '20px' }}>
                     <input
                         type="password"
                         name="password"
-                        className="password"
+                        className="password gamja-flower-regular"
                         placeholder="비밀번호 입력"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        style={{
+                            width: '100%',
+                            height: '50px',
+                            padding: '6px 12px',
+                            borderRadius: '10px',
+                            borderColor: 'gray',
+                            borderStyle: 'solid',
+                            borderWidth: '1px',
+                            fontSize: '1rem'
+                        }}
                     />
                 </div>
 
-                {error && <div className="error_message" style={{ color: 'red' }}>{error}</div>}
+                {error && (
+                    <div className="error_message gamja-flower-regular" style={{ 
+                        color: 'red', 
+                        textAlign: 'center', 
+                        marginBottom: '15px' 
+                    }}>
+                        {error}
+                    </div>
+                )}
 
                 <button
                     type="submit"
                     className="btn btn-warning gamja-flower-regular"
                     disabled={loading}
+                    style={{
+                        width: '100%',
+                        height: '50px',
+                        fontSize: '1.1rem',
+                        marginBottom: '15px'
+                    }}
                 >
                     {loading ? '로그인 중...' : '로그인'}
                 </button>
             </form>
 
-            {/* 회원가입 버튼 추가 */}
-            <div style={{ marginTop: '15px' }}>
+            {/* 회원가입 버튼을 form 밖으로 분리하고 중앙 정렬 */}
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
                 <button
-                    className="btn btn-warning gamja-flower-regular"
+                    type="button"
+                    className="btn btn-link gamja-flower-regular"
                     onClick={() => navigate('/join')}
+                    style={{
+                        color:'gray'
+                    }}
                 >
                     회원가입
                 </button>
