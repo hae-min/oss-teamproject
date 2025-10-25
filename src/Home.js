@@ -1,48 +1,78 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState } from "react";
+import Timer from "./components/Timer";
+import DogSelect from "./components/DogSelect";
+import './index.css';
 
 function Home() {
-  const [seconds, setSeconds] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-
-  useEffect(() => {
-    let timer;
-    if (isRunning) {
-      timer = setInterval(() => {
-        setSeconds((prev) => prev + 1);
-      }, 1000);
-    } else {
-      clearInterval(timer);
-    }
-    return () => clearInterval(timer);
-  }, [isRunning]);
-
-
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const secs = time % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-  };
-
- 
-  const handleStartStop = () => setIsRunning(!isRunning);
-  const handleReset = () => {
-    setIsRunning(false);
-    setSeconds(0);
-  };
+  const [selectedBreed, setSelectedBreed] = useState("");
+  const [studyTime, setStudyTime] = useState(25); // 분
+  const [restTime, setRestTime] = useState(5); // 분
+  const [sets, setSets] = useState(1);
 
   return (
-    <div className="home-container">
-      <h1 className="title">⏰ Timer</h1>
-      <div className="timer-display">{formatTime(seconds)}</div>
-      <div className="button-group">
-        <button onClick={handleStartStop}>
-          {isRunning ? "Pause" : "Start"}
-        </button>
-        <button onClick={handleReset}>Reset</button>
+    <div style={{ textAlign: "center" }}>
+      <h1 className="gamja-flower-regular">🐶 댕모도로</h1>
+
+      <DogSelect onSelect={setSelectedBreed} />
+
+      <div>
+        <label htmlFor="stminute" className="gamja-flower-regular">공부 시간(분)</label>
+        <select
+          id="stminute"
+          value={studyTime}
+          onChange={(e) => setStudyTime(Number(e.target.value))}
+        >
+          {[0, 1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60].map((m) => (
+            <option key={m} value={m}>
+              {m}
+            </option>
+          ))}
+        </select>
+
+        <label htmlFor="rsminute" className="gamja-flower-regular">쉬는 시간(분)</label>
+        <select
+          id="rsminute"
+          value={restTime}
+          onChange={(e) => setRestTime(Number(e.target.value))}
+        >
+          {[0, 1, 3, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60].map((m) => (
+            <option key={m} value={m}>
+              {m}
+            </option>
+          ))}
+        </select>
+
+        <br />
+        <label htmlFor="set" className="gamja-flower-regular">세트 수</label>
+        <br />
+        <input className="gamja-flower-regular"
+          id="set"
+          type="number"
+          min="1"
+          max="10"
+          value={sets}
+          onChange={(e) => setSets(Number(e.target.value))}
+          placeholder="세트 수를 입력하세요"
+        />
       </div>
+
+      <h3 className="gamja-flower-regular">획득할 사진</h3>
+      <pre className="gamja-flower-regular">
+        공부를 완료하면 {selectedBreed || "강아지"} 사진을 획득하고{"\n"}
+        프로필에 추가할 수 있어요!
+      </pre>
+
+      <Timer
+        studyTime={studyTime}
+        restTime={restTime}
+        sets={sets}
+        breed={selectedBreed}
+      />
     </div>
   );
 }
 
 export default Home;
+
+
+
