@@ -37,6 +37,7 @@ function Home() {
 
 
 
+
       <DogSelect onSelect={setSelectedBreed} />
 
       <div>
@@ -86,6 +87,9 @@ function Home() {
         프로필에 추가할 수 있어요!
       </pre>
 
+      <label for="date">날짜를 입력하세요</label>
+      <input type="date" id="date" />
+      
       <Timer
         studyTime={studyTime}
         restTime={restTime}
