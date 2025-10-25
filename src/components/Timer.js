@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 function Timer({ studyTime, restTime, sets, breed }) {
   const [timeLeft, setTimeLeft] = useState(studyTime * 60);
@@ -7,8 +8,44 @@ function Timer({ studyTime, restTime, sets, breed }) {
   const [isRunning, setIsRunning] = useState(false);
   const [rewardImage, setRewardImage] = useState("");
 
-
   const toggleTimer = () => setIsRunning((prev) => !prev);
+
+  // ✅ 보상 저장 함수 (Timer 내부로 이동)
+  const giveDogReward = async () => {
+    if (!breed) return;
+    try {
+      const res = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`);
+      const data = await res.json();
+      const dogImageUrl = data.message;
+
+      const userId = localStorage.getItem("userId");
+
+      const userRes = await axios.get(`https://68db330123ebc87faa323a7c.mockapi.io/${userId}`);
+      const userData = userRes.data;
+
+      const updatedRewards = [...(userData.rewards || []), dogImageUrl];
+
+      await axios.put(`https://68db330123ebc87faa323a7c.mockapi.io/${userId}`, {
+        ...userData,
+        rewards: updatedRewards,
+      });
+
+      alert("🎉 보상 강아지 사진이 프로필에 저장되었습니다!");
+    } catch (err) {
+      console.error("보상 저장 실패:", err);
+    }
+  };
+
+  const fetchRewardImage = async () => {
+    if (!breed) return;
+    try {
+      const res = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`);
+      const data = await res.json();
+      setRewardImage(data.message);
+    } catch (err) {
+      console.error("보상 이미지 로드 실패:", err);
+    }
+  };
 
   useEffect(() => {
     setTimeLeft(studyTime * 60);
@@ -26,20 +63,19 @@ function Timer({ studyTime, restTime, sets, breed }) {
         if (prev > 0) return prev - 1;
 
         if (isStudy) {
-       
           setIsStudy(false);
           return restTime * 60;
         } else {
-          
           if (currentSet < sets) {
             setCurrentSet((s) => s + 1);
             setIsStudy(true);
             return studyTime * 60;
           } else {
-           
+            // ✅ 모든 세트 완료 시 호출
             clearInterval(timer);
             setIsRunning(false);
-            fetchRewardImage();
+            fetchRewardImage(); // 화면에 표시
+            giveDogReward();    // MockAPI에 저장
             return 0;
           }
         }
@@ -48,19 +84,6 @@ function Timer({ studyTime, restTime, sets, breed }) {
 
     return () => clearInterval(timer);
   }, [isRunning, isStudy, currentSet, studyTime, restTime, sets]);
-
-  
-  const fetchRewardImage = async () => {
-    if (!breed) return; 
-    try {
-      const res = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`);
-      const data = await res.json();
-      setRewardImage(data.message);
-    } catch (err) {
-      console.error("보상 이미지 로드 실패:", err);
-    }
-  };
-
 
   const formatTime = (sec) => {
     const m = Math.floor(sec / 60);
@@ -89,4 +112,6 @@ function Timer({ studyTime, restTime, sets, breed }) {
 }
 
 export default Timer;
+
+
 

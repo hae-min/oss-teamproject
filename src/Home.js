@@ -1,17 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom"; 
 import Timer from "./components/Timer";
 import DogSelect from "./components/DogSelect";
 import './index.css';
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate(); 
   const [selectedBreed, setSelectedBreed] = useState("");
   const [studyTime, setStudyTime] = useState(25); // 분
   const [restTime, setRestTime] = useState(5); // 분
   const [sets, setSets] = useState(1);
+  const location = useLocation();
+  const [user, setUser] = useState(null);
+
+    useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const userid = params.get('userid'); // 쿼리에서 userid 추출
+    setUser(userid);
+  }, [location]);
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1 className="gamja-flower-regular">🐶 댕모도로</h1>
+  <div>
+      <div style ={{display :"flex", justifyContent: "space-between", alignItems:"center"}}>
+  <h1 className="gamja-flower-regular">
+    🐶 댕모도로
+  </h1>
+    <button
+      onClick={() => navigate('/profile?useid=${user}')}
+      className="gamja-flower-regular"
+    >
+      내 프로필
+    </button>
+</div>
+
+
 
       <DogSelect onSelect={setSelectedBreed} />
 
@@ -68,6 +91,7 @@ function Home() {
         sets={sets}
         breed={selectedBreed}
       />
+      
     </div>
   );
 }
