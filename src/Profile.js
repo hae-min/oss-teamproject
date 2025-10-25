@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
+  const navigate = useNavigate();
   const [nickname, setNickname] = useState('');
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
@@ -145,6 +147,7 @@ function Profile() {
   return (
     <div className="profile_container">
       <h1 className="title">댕모도로</h1>
+      <div className='btn btn-warning' onClick={() => navigate('/')}>home</div>
       <div>내 정보</div>
 
       <form onSubmit={handleSearch}>
