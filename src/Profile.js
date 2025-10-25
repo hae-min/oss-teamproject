@@ -146,9 +146,9 @@ function Profile() {
 
   return (
     <div className="profile_container">
-      <h1 className="title">댕모도로</h1>
-      <div className='btn btn-warning' onClick={() => navigate('/')}>home</div>
-      <div>내 정보</div>
+      <h1 className="gamja-flower-regular">🐶댕모도로</h1>
+      <div className='btn btn-warning gamja-flower-regular' onClick={() => navigate('/')}>home</div>
+      <div className='gamja-flower-regular'>내 정보</div>
 
       <form onSubmit={handleSearch}>
         <div className="search">
@@ -159,7 +159,7 @@ function Profile() {
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
           />
-          <button type="submit" className="btn btn-warning" disabled={loading}>{/*search_button*/}
+          <button type="submit" className="btn btn-warning gamja-flower-regular" disabled={loading}>{/*search_button*/}
             {loading ? '검색 중...' : '검색'}
           </button>
         </div>
@@ -170,20 +170,20 @@ function Profile() {
           <div>로딩 중...</div>
         ) : user ? (
           <>
-            <div className="user_nickname">{user.nickname}</div>
+            <div className="gamja-flower-regular">{user.nickname}</div>
 
             <form onSubmit={handleSaveMessage}>
               <div className='profile_messege'>
                 <input
                   type='text'
-                  className="input_profile_messege"
+                  className="gamja-flower-regular"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="프로필 메시지를 입력하세요"
                 />
                 <button
                   type='submit'
-                  className='btn btn-warning'
+                  className='btn btn-warning gamja-flower-regular'
                   disabled={isSaving}
                 >{/*profile_messege_button*/}
                   {isSaving ? '저장 중...' : '저장'}
@@ -191,7 +191,7 @@ function Profile() {
               </div>
             </form>
 
-            <div className="user_studytime">총 공부 시간: {user.study || 0}시간</div>
+            <div className="gamja-flower-regular">총 공부 시간: {user.study || 0}시간</div>
             <div className="user_img"></div>
           </>
         ) : (

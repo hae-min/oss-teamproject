@@ -41,7 +41,7 @@ function Login(){
 
     return(
         <div>
-            <h1>댕모도로</h1>
+            <h1 className='gamja-flower-regular'>🐶댕모도로</h1>
             <form onSubmit={handleSubmit}>
                 <div className="login_info">
                     <input 
@@ -71,7 +71,7 @@ function Login(){
 
                 <button 
                     type="submit" 
-                    className="btn btn-warning"
+                    className="btn btn-warning gamja-flower-regular"
                     disabled={loading}
                 >{/*login_button*/}
                     {loading ? '로그인 중...' : 'log in'}
@@ -80,7 +80,7 @@ function Login(){
 
             <button 
                 type="button" 
-                className="btn btn-warning"
+                className="btn btn-warning gamja-flower-regular"
                 onClick={handleSignupClick}
             >{/*login_join_button*/}
                 회원가입
