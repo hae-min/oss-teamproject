@@ -1,5 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 function Join() {
     const {
@@ -14,6 +16,8 @@ function Join() {
             nickname: ''
         }
     });
+
+    const navigate = useNavigate();
 
     const [message, setMessage] = useState('');
 
@@ -42,7 +46,7 @@ function Join() {
                 setMessage('회원가입이 완료되었습니다!');
                 reset(); // 폼 초기화
                 setTimeout(() => {
-                    window.location.href = '/login';
+                    navigate('/login'); // ✅ React Router 방식으로 이동
                 }, 1000);
             } else {
                 setMessage('회원가입에 실패했습니다. 다시 시도해주세요.');
