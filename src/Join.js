@@ -1,5 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 function Join() {
     const {
@@ -14,6 +16,8 @@ function Join() {
             nickname: ''
         }
     });
+
+    const navigate = useNavigate();
 
     const [message, setMessage] = useState('');
 
@@ -42,7 +46,7 @@ function Join() {
                 setMessage('회원가입이 완료되었습니다!');
                 reset(); // 폼 초기화
                 setTimeout(() => {
-                    window.location.href = '/login';
+                    navigate('/login'); // ✅ React Router 방식으로 이동
                 }, 1000);
             } else {
                 setMessage('회원가입에 실패했습니다. 다시 시도해주세요.');
@@ -54,9 +58,9 @@ function Join() {
 
     return (
         <div>
-            <h1>회원가입</h1>
+            <h1 className='gamja-flower-regular'>🐶회원가입</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="input_id">
+                <div className="gamja-flower-regular">
                     아이디 입력
                     <input
                         type="text"
@@ -78,7 +82,7 @@ function Join() {
                     )}
                 </div>
 
-                <div className="input_password">
+                <div className="input_password gamja-flower-regular">
                     비밀번호 입력
                     <input
                         type="password"
@@ -100,7 +104,7 @@ function Join() {
                     )}
                 </div>
 
-                <div className="input_nickname">
+                <div className="input_nickname gamja-flower-regular">
                     닉네임 입력
                     <input
                         type="text"
@@ -123,7 +127,7 @@ function Join() {
 
                 <button
                     type="submit"
-                    className="btn btn-warning"
+                    className="btn btn-warning gamja-flower-regular"
                     disabled={isSubmitting}
                 >
                     {isSubmitting ? '처리중...' : '회원가입하기'}
