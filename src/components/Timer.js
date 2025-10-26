@@ -41,7 +41,7 @@ function Timer({ studyTime, restTime, sets, breed, onStudyComplete }) {
         }
       );
 
-      // 7️⃣ 공부 시간 업데이트 (총 공부 시간 = studyTime * sets)
+ 
       if (onStudyComplete) {
         const totalStudyMinutes = studyTime * sets;
         onStudyComplete(totalStudyMinutes);
@@ -53,7 +53,7 @@ function Timer({ studyTime, restTime, sets, breed, onStudyComplete }) {
     }
   };
 
-  // ✅ 타이머 초기화
+
   useEffect(() => {
     setTimeLeft(studyTime * 60);
     setIsStudy(true);
@@ -62,7 +62,7 @@ function Timer({ studyTime, restTime, sets, breed, onStudyComplete }) {
     setIsRunning(false);
   }, [studyTime, restTime, sets, breed]);
 
-  // ✅ 타이머 동작
+ 
   useEffect(() => {
     if (!isRunning) return;
 
@@ -79,7 +79,7 @@ function Timer({ studyTime, restTime, sets, breed, onStudyComplete }) {
             setIsStudy(true);
             return studyTime * 60;
           } else {
-            // ✅ 모든 세트 완료 시 한 번만 호출
+           
             clearInterval(timer);
             setIsRunning(false);
             handleReward();
