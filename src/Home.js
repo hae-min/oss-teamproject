@@ -12,21 +12,18 @@ function Home() {
   const [studyTime, setStudyTime] = useState(25); // 분
   const [restTime, setRestTime] = useState(5); // 분
   const [sets, setSets] = useState(1);
+  const [selectedDate, setSelectedDate] = useState(''); // 날짜 state 추가
   const location = useLocation();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const userid = params.get('userid'); // 쿼리에서 userid 추출
-    
-    // localStorage에서도 userId 가져오기 (Timer와 동일한 방식)
+    // Timer와 동일하게 localStorage를 우선적으로 사용
     const localUserId = localStorage.getItem("userId");
+    const params = new URLSearchParams(location.search);
+    const urlUserId = params.get('userid');
     
-    console.log("URL userid:", userid);
-    console.log("localStorage userId:", localUserId);
-    
-    // userid가 있으면 그것을 사용하고, 없으면 localStorage 사용
-    const finalUserId = userid || localUserId;
+    // localStorage를 우선적으로 사용 (Timer와 일관성 유지)
+    const finalUserId = localUserId || urlUserId;
     setUser(finalUserId);
     console.log("최종 사용자 ID:", finalUserId);
   }, [location]);
@@ -61,18 +58,28 @@ function Home() {
       
       console.log("현재 공부 시간:", currentStudyTime, "→ 새 공부 시간:", newStudyTime);
       
-      // 3. 업데이트된 공부 시간 저장
+      // 3. 업데이트할 데이터 준비
+      const updateData = {
+        study_time: newStudyTime
+      };
+      
+      // 4. 날짜가 선택되어 있으면 lastdate도 함께 업데이트
+      if (selectedDate) {
+        updateData.lastdate = selectedDate;
+        console.log("마지막 접속일 업데이트:", selectedDate);
+      }
+      
+      // 5. MockAPI에 업데이트 요청
       const putUrl = `https://68db330123ebc87faa323a7c.mockapi.io/userinfo/${user}`;
       console.log("PUT 요청 URL:", putUrl);
+      console.log("업데이트 데이터:", updateData);
       
       const putResponse = await fetch(putUrl, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          study_time: newStudyTime
-        })
+        body: JSON.stringify(updateData)
       });
       
       if (!putResponse.ok) {
@@ -81,6 +88,12 @@ function Home() {
       }
       
       console.log(`공부 시간 업데이트 완료: ${currentStudyTime}분 → ${newStudyTime}분`);
+      if (selectedDate) {
+        console.log(`마지막 접속일 업데이트 완료: ${selectedDate}`);
+        alert(`✅ 공부 시간이 업데이트되었습니다! (${newStudyTime}분)\n마지막 접속일: ${selectedDate}`);
+      } else {
+        alert(`✅ 공부 시간이 업데이트되었습니다! (${newStudyTime}분)`);
+      }
     } catch (error) {
       console.error('공부 시간 업데이트 실패:', error);
     }
@@ -224,6 +237,8 @@ function Home() {
           <input 
             type="date" 
             id="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
             className="gamja-flower-regular"
             style={{
               width: '100%',
