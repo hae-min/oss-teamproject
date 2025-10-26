@@ -56,18 +56,17 @@ function Home() {
       
       console.log("현재 공부 시간:", currentStudyTime, "→ 새 공부 시간:", newStudyTime);
       
-      // 3. 업데이트할 데이터 준비
+     
       const updateData = {
         study_time: newStudyTime
       };
       
-      // 4. 날짜가 선택되어 있으면 lastdate도 함께 업데이트
+     
       if (selectedDate) {
         updateData.lastdate = selectedDate;
         console.log("마지막 접속일 업데이트:", selectedDate);
       }
-      
-      // 5. MockAPI에 업데이트 요청
+
       const putUrl = `https://68db330123ebc87faa323a7c.mockapi.io/userinfo/${user}`;
       console.log("PUT 요청 URL:", putUrl);
       console.log("업데이트 데이터:", updateData);

@@ -10,19 +10,17 @@ function Timer({ studyTime, restTime, sets, breed, onStudyComplete }) {
 
   const toggleTimer = () => setIsRunning((prev) => !prev);
 
-  // ✅ 보상 이미지를 가져와서 화면에 표시하고 MockAPI에 저장
   const handleReward = async () => {
     if (!breed) return;
     try {
-      // 1️⃣ 강아지 이미지 한 번만 가져오기
       const res = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`);
       const data = await res.json();
       const dogImageUrl = data.message;
 
-      // 2️⃣ 화면에 표시
+     
       setRewardImage(dogImageUrl);
 
-      // 3️⃣ 현재 로그인한 사용자 id 가져오기
+ 
       const userId = localStorage.getItem("userId");
 
       // 4️⃣ 사용자 데이터 불러오기
