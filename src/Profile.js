@@ -262,7 +262,7 @@ setMessage(myUser.message || '');
 
 
             <div className="rewards_section" style={{ marginTop: '30px' }}>
-              <h5 className="gamja-flower-regular">수집한 사진 🐶</h5>
+              <h5 className="gamja-flower-regular">내 컬렉션 🐶</h5>
               <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
                 {user.rewards && user.rewards.length > 0 ? (
                   user.rewards.map((url, i) => (
