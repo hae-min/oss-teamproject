@@ -37,7 +37,7 @@ function Home() {
     }
 
     try {
-      // 1. 현재 사용자 정보 가져오기
+   
       const url = `https://68db330123ebc87faa323a7c.mockapi.io/userinfo/${user}`;
       console.log("GET 요청 URL:", url);
       
@@ -50,8 +50,7 @@ function Home() {
       
       const userData = await response.json();
       console.log("현재 사용자 데이터:", userData);
-      
-      // 2. 기존 공부 시간에 새로운 공부 시간 추가 (분 단위)
+  
       const currentStudyTime = Number(userData.study_time) || 0;
       const newStudyTime = currentStudyTime + completedMinutes;
       
