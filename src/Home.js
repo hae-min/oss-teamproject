@@ -232,7 +232,7 @@ function Home() {
             fontSize: '1rem',
             fontWeight: 'bold'
           }}>
-            날짜를 입력하세요
+            오늘 날짜를 입력하세요
           </label>
           <input 
             type="date" 
