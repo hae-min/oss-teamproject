@@ -25,7 +25,7 @@ function Profile() {
       setUserId(loggedInUserId);
       setLoading(true);
       try {
-        const response = await fetch(`https://68db330123ebc87faa323a7c.mockapi.io/userinfo?userid=${loggedInUserId}`);
+        const response = await fetch(`https://68db330123ebc87faa323a7c.mockapi.io/userinfo/${loggedInUserId}`);
 
         if (!response.ok) {
           alert('데이터를 불러올 수 없습니다');
@@ -33,17 +33,18 @@ function Profile() {
           return;
         }
 
-        const users = await response.json();
+       const myUser = await response.json(); // 단일 객체로 받기
 
-        if (users.length === 0) {
-          alert('사용자를 찾을 수 없습니다');
-          setLoading(false);
-          return;
-        }
+if (!myUser) { // 객체가 없으면
+  alert('사용자를 찾을 수 없습니다');
+  setLoading(false);
+  return;
+}
 
-        const myUser = users[0];
-        setUser(myUser);
-        setMessage(myUser.message || '');
+setUser(myUser);
+setMessage(myUser.message || '');
+
+
       } catch (err) {
         console.error('정보 불러오기 오류:', err);
         alert('정보를 불러오는 중 오류가 발생했습니다');

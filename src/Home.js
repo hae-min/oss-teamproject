@@ -113,16 +113,19 @@ function Home() {
         <h1 className="gamja-flower-regular" style={{ margin: 0, fontSize: '2rem' }}>
           🐶 댕모도로
         </h1>
-        <button
-          onClick={() => navigate(`/profile?userid=${user}`)}
-          className="btn btn-warning gamja-flower-regular"
-          style={{
-            height: '38px',
-            padding: '6px 12px'
-          }}
-        >
-          내 프로필
-        </button>
+<button
+  onClick={() => {
+    console.log("내가 보낼 user.userid:", user);
+    navigate(`/profile?userid=${user}`);
+  }}
+  className="btn btn-warning gamja-flower-regular"
+  style={{
+    height: '38px',
+    padding: '6px 12px'
+  }}
+>
+  내 프로필
+</button>
       </div>
 
       <DogSelect onSelect={setSelectedBreed} />
