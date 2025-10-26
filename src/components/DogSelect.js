@@ -28,7 +28,7 @@ function DogSelect({ onSelect }) {
     <div style={{ textAlign: "center" }}>
       <h3 className="gamja-flower-regular">강아지 종</h3>
       <select value={selectedBreed} onChange={handleChange}>
-        <option value="" className="gamja-flower-regular">종료 후 보상 받을 강아지 종을 선택하세요</option>
+        <option value="" className="gamja-flower-regular">종료 후 보상 받을 강아지를 선택하세요</option>
         {breed.map((breed) => (
           <option key={breed} value={breed}>
             {breed}
