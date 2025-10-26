@@ -23,16 +23,16 @@ function Timer({ studyTime, restTime, sets, breed, onStudyComplete }) {
  
       const userId = localStorage.getItem("userId");
 
-      // 4️⃣ 사용자 데이터 불러오기
+     
       const userRes = await axios.get(
         `https://68db330123ebc87faa323a7c.mockapi.io/userinfo/${userId}`
       );
       const userData = userRes.data;
 
-      // 5️⃣ 보상 배열 업데이트
+   
       const updatedRewards = [...(userData.rewards || []), dogImageUrl];
 
-      // 6️⃣ MockAPI에 업데이트 요청
+    
       await axios.put(
         `https://68db330123ebc87faa323a7c.mockapi.io/userinfo/${userId}`,
         {
@@ -82,7 +82,7 @@ function Timer({ studyTime, restTime, sets, breed, onStudyComplete }) {
             // ✅ 모든 세트 완료 시 한 번만 호출
             clearInterval(timer);
             setIsRunning(false);
-            handleReward(); // 한 번의 함수 호출로 처리
+            handleReward();
             return 0;
           }
         }
