@@ -120,7 +120,7 @@ setMessage(myUser.message || '');
         ? searchedUser.rewards.map((url, i) =>
           `<img src="${url}" alt="reward-${i}" style="width: 150px; margin: 10px; border-radius: 10px;" />`
         ).join('')
-        : '<p>아직 받은 강아지 사진이 없어요 🐾</p>';
+        : '<p>아직 받은 강아지 사진이 없어요 🐾 공부를 시작하고 귀여운 강아지로 채워주세요!🐾</p>';
 
       const newWindow = window.open('', '_blank');
       newWindow.document.write(`
