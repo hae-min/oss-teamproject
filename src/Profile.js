@@ -33,9 +33,9 @@ function Profile() {
           return;
         }
 
-       const myUser = await response.json(); // 단일 객체로 받기
+       const myUser = await response.json(); 
 
-if (!myUser) { // 객체가 없으면
+if (!myUser) { 
   alert('사용자를 찾을 수 없습니다');
   setLoading(false);
   return;

@@ -9,26 +9,25 @@ function Home() {
   const navigate = useNavigate(); 
   const [id, setId] = useState('');
   const [selectedBreed, setSelectedBreed] = useState("");
-  const [studyTime, setStudyTime] = useState(25); // 분
-  const [restTime, setRestTime] = useState(5); // 분
+  const [studyTime, setStudyTime] = useState(25); 
+  const [restTime, setRestTime] = useState(5);
   const [sets, setSets] = useState(1);
-  const [selectedDate, setSelectedDate] = useState(''); // 날짜 state 추가
+  const [selectedDate, setSelectedDate] = useState('');
   const location = useLocation();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Timer와 동일하게 localStorage를 우선적으로 사용
+    
     const localUserId = localStorage.getItem("userId");
     const params = new URLSearchParams(location.search);
     const urlUserId = params.get('userid');
-    
-    // localStorage를 우선적으로 사용 (Timer와 일관성 유지)
+   
     const finalUserId = localUserId || urlUserId;
     setUser(finalUserId);
     console.log("최종 사용자 ID:", finalUserId);
   }, [location]);
 
-  // 공부 시간을 MockAPI에 업데이트하는 함수 (분 단위)
+
   const updateStudyTime = async (completedMinutes) => {
     console.log("updateStudyTime 호출됨, user:", user, "completedMinutes:", completedMinutes);
     
